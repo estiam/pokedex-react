@@ -16,6 +16,7 @@ class Add extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleCheckbox = this.handleCheckbox.bind(this);
     this.handleFile = this.handleFile.bind(this);
+    this.submit = this.submit.bind(this);
   }
 
   handleChange(element) {
@@ -62,12 +63,26 @@ class Add extends Component {
     }
   }
 
+  submit() {
+    fetch("http://localhost:8000/pokemons",
+      {
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(this.state),
+      })
+      .then(data => alert("Pokemon created")
+        .catch(err => console.log(err))
+      )
+  }
 
   render() {
     return (
       <div>
         <h1>Ajouter un pokémon</h1>
-        <form>
+        <div>
           <div>
             <label htmlFor='name'>Nom</label>
             <input
@@ -114,9 +129,9 @@ class Add extends Component {
               name='photo' id='photo' type='file'></input>
           </div>
           <div>
-            <button>GO !</button>
+            <button onClick={this.submit}>GO !</button>
           </div>
-        </form>
+        </div>
       </div>
     );
   }
